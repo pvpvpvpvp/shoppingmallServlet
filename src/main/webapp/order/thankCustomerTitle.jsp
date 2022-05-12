@@ -7,6 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<div class="jumbotron">
+		<div class="container">
+			<h1 class="display-3">주문 완료</h1>
+		</div>
+	</div>
 </body>
 </html>

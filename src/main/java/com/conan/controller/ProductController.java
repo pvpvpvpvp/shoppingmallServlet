@@ -71,6 +71,9 @@ public void actionDo(HttpServletRequest request,HttpServletResponse response) th
 		String ctxPath = request.getContextPath();
 		String cmd = url.substring(ctxPath.length());
 		RequestDispatcher rd = null;
+		
+		request.setCharacterEncoding("UTF-8");
+		
 		// ProductContent
 		if(cmd.equals("/product/select.action")) {
 			ProductDAO dao = ProductDAO.getInstance();
@@ -167,6 +170,7 @@ public void actionDo(HttpServletRequest request,HttpServletResponse response) th
 			response.addCookie(name);
 			sendRedirect= !sendRedirect;
 			response.sendRedirect("/order/orderConfirmation.action");
+//			forward로 넘길시 아래에 action에서 getCookie 동작이 이전값을 
 //			rd = getServletContext().getRequestDispatcher("/order/orderConfirmation.action");	
 		}
 		if(cmd.equals("/order/orderConfirmation.action")) {
@@ -178,13 +182,38 @@ public void actionDo(HttpServletRequest request,HttpServletResponse response) th
 				if (cookie.getName().equals("name")) {
 					name=cookie.getValue();
 				}
-				if (cookie.getName().equals("name")) {
+				if (cookie.getName().equals("shippingDate")) {
 					shippingDate=cookie.getValue();
 				}
 			}
 			request.setAttribute("name", name);
 			request.setAttribute("shippingDate", shippingDate);
 			rd = getServletContext().getRequestDispatcher("/order/orderview/orderConfirmationPage.jsp");	
+		}
+		if(cmd.equals("/order/thankCustomer.action")) {
+			
+			Cookie[] cookies = request.getCookies();
+			String name = null;
+			String shippingDate = null;
+			String cartId = null;
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("name")) {
+					name=cookie.getValue();
+					cookie.setMaxAge(0);
+				}
+				if (cookie.getName().equals("shippingDate")) {
+					shippingDate=cookie.getValue();
+					cookie.setMaxAge(0);
+				}
+				if (cookie.getName().equals("JSESSIONID")) {
+					cartId=cookie.getValue();
+//					cookie.setMaxAge(0);
+				}
+			}
+			request.setAttribute("name", name);
+			request.setAttribute("shippingDate", shippingDate);
+			request.setAttribute("cartId", cartId);
+			rd = getServletContext().getRequestDispatcher("/order/orderview/thankCustomerPage.jsp");	
 		}
 		
 		if(rd==null) {

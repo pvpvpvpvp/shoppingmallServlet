@@ -21,6 +21,7 @@
 			<div class="col-4" align="right">
 				<p><em>배송일 :${shippingDate }</em></p>
 			</div>
+			
 		</div>
 	</div>
 	
@@ -43,7 +44,9 @@
 				<tr><th></th><th></th><th>총액</th><th>${sum }원</th></tr>
 			</table>
 		</div>
+		<a class="nav-link" href="/order/thankCustomer.action"> 결제 </a>
 	</div>
+	
 	
 	
 	
