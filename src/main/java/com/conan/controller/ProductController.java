@@ -68,7 +68,6 @@ public void actionDo(HttpServletRequest request,HttpServletResponse response) th
 	
 		String url = request.getRequestURI(); 
 		String ctxPath = request.getContextPath();
-		System.out.println("ctxPath"+ctxPath);
 		String cmd = url.substring(ctxPath.length());
 		RequestDispatcher rd = null;
 		// ProductContent
@@ -82,11 +81,27 @@ public void actionDo(HttpServletRequest request,HttpServletResponse response) th
 		if(cmd.equals("/product/selectAll.action")) {
 			ProductDAO dao = ProductDAO.getInstance();
 			ArrayList<ProductsVO> arrayList = dao.selectProductAll();
-			
-			
-			
 			request.setAttribute("products", arrayList);
 			rd = getServletContext().getRequestDispatcher("/product/productview/productListPage.jsp");	
+		}
+		if(cmd.equals("/product/cartDelete.action")) {
+			HttpSession session = request.getSession(true);
+			String proId = request.getParameter("proId");
+			ArrayList<ProductsVO> cartList = (ArrayList<ProductsVO>)session.getAttribute("cartList");
+			ProductsVO vo = new ProductsVO();
+			for (int i = 0; i < cartList.size(); i++) {
+				vo = cartList.get(i);
+				if (vo.getProId().equals(proId)) {
+					cartList.remove(vo);
+				}
+			}
+			rd = getServletContext().getRequestDispatcher("/cart/cartview/cartPage.jsp");	
+		}
+		if(cmd.equals("/product/cartDeleteAll.action")) {
+			HttpSession session = request.getSession(true);
+			ArrayList<ProductsVO> cartList = (ArrayList<ProductsVO>)session.getAttribute("cartList");
+			cartList.removeAll(cartList);
+			rd = getServletContext().getRequestDispatcher("/cart/cartview/cartPage.jsp");	
 		}
 		if(cmd.equals("/product/cartListAll.action")) {
 			rd = getServletContext().getRequestDispatcher("/cart/cartview/cartPage.jsp");	

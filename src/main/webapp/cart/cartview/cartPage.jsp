@@ -8,6 +8,7 @@
 </head>
 <body>
 	<jsp:include page="/common/menu.jsp"></jsp:include>
+	<jsp:include page="/cart/cartTitle.jsp"></jsp:include>
 	<jsp:include page="/cart/cart.jsp"></jsp:include>
 	<jsp:include page="/common/footer.jsp"></jsp:include>
 </body>
