@@ -13,7 +13,8 @@
         	 <div class="navbar-header">
 		        <a class="navbar-brand" href="<%=request.getContextPath() %>/home.jsp">HOME</a>
 		        <a class="navbar-brand" href="<%=request.getContextPath() %>/product/selectAll.action">Products</a>
-		         <a class="navbar-brand" href="<%=request.getContextPath() %>/product/productview/addProductPage.jsp">addProduct</a>
+		        <a class="navbar-brand" href="<%=request.getContextPath() %>/product/productview/addProductPage.jsp">addProduct</a>
+		        <a class="navbar-brand" href="<%=request.getContextPath() %>/product/cartListAll.action">cart</a>
 		      </div>
         </div>
     </nav>
