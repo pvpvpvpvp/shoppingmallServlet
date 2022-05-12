@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -156,6 +157,34 @@ public void actionDo(HttpServletRequest request,HttpServletResponse response) th
 			System.out.println(isUpdate);
 			rd = getServletContext().getRequestDispatcher("/product/selectAll.action");	
 		}
+		
+		if(cmd.equals("/order/shippingInsert.action")) {
+			Cookie name = new Cookie("name", request.getParameter("name"));
+			Cookie shippingDate = new Cookie("shippingDate", request.getParameter("shippingDate"));
+			name.setMaxAge(24*60*60);
+			shippingDate.setMaxAge(24*60*60);
+			response.addCookie(shippingDate);
+			response.addCookie(name);
+			rd = getServletContext().getRequestDispatcher("/order/orderConfirmation.action");	
+		}
+		if(cmd.equals("/order/orderConfirmation.action")) {
+			
+			Cookie[] cookies = request.getCookies();
+			String name = null;
+			String shippingDate = null;
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("name")) {
+					name=cookie.getValue();
+				}
+				if (cookie.getName().equals("name")) {
+					shippingDate=cookie.getValue();
+				}
+			}
+			request.setAttribute("name", name);
+			request.setAttribute("shippingDate", shippingDate);
+			rd = getServletContext().getRequestDispatcher("/order/orderview/orderConfirmationPage.jsp");	
+		}
+		
 		if(rd==null) {
 			rd = getServletContext().getRequestDispatcher("/product/select.action");
 		}
