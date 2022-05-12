@@ -66,7 +66,7 @@ public void actionDo(HttpServletRequest request,HttpServletResponse response) th
 	
 		String path = request.getRealPath("/upload");
 		int size = 1024*1024*10; //10M
-	
+		boolean sendRedirect = false;
 		String url = request.getRequestURI(); 
 		String ctxPath = request.getContextPath();
 		String cmd = url.substring(ctxPath.length());
@@ -165,7 +165,9 @@ public void actionDo(HttpServletRequest request,HttpServletResponse response) th
 			shippingDate.setMaxAge(24*60*60);
 			response.addCookie(shippingDate);
 			response.addCookie(name);
-			rd = getServletContext().getRequestDispatcher("/order/orderConfirmation.action");	
+			sendRedirect= !sendRedirect;
+			response.sendRedirect("/order/orderConfirmation.action");
+//			rd = getServletContext().getRequestDispatcher("/order/orderConfirmation.action");	
 		}
 		if(cmd.equals("/order/orderConfirmation.action")) {
 			
@@ -188,7 +190,9 @@ public void actionDo(HttpServletRequest request,HttpServletResponse response) th
 		if(rd==null) {
 			rd = getServletContext().getRequestDispatcher("/product/select.action");
 		}
-		rd.forward(request, response);
+		if(!sendRedirect) {
+			rd.forward(request, response);
+		}
 	}
 
 }
